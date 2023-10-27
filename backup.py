@@ -1,0 +1,52 @@
+name: Snyk SCA, Code, IaC and Container CLI monitor example
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Test and build
+    environment: snyk-npm
+    runs-on: ubuntu-latest
+
+strategy:
+  matrix:
+    node-version: [16.x]
+
+    # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+steps:
+  - uses: actions/checkout@v2
+  - name: Use Node.js ${{ matrix.node-version }}
+    uses: actions/setup-node@v2
+    with:
+      node-version: ${{ matrix.node-version }}
+      cache: 'npm'
+
+  - name: Setup Snyk + snyk-to-html # For information about the required commands for generating an HTML report see https://github.com/snyk/snyk-to-html
+    run: |
+      npm install snyk -g
+      npm install snyk-to-html -g
+      snyk auth ${{secrets.SNYK_AUTH}}
+  - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
+    run: |
+      snyk monitor
+# For a list of additional available flags/options see: https://docs.snyk.io/snyk-cli/commands
+
+  - name: Snyk Code # Remove || true to fail if there are vulnerabilities
+    run: |
+      snyk code test || true
+  - name: Snyk Container # Rename your image, for testing and failing please add snyk container test before snyk container monitor
+    run: |
+      docker build . -t yourimage:tag
+      snyk container monitor yourimage:tag --file=Dockerfile
+  - name: Snyk IaC # Remove || true to fail if there are vulnerabilities
+    run: |
+      snyk iac test || true
+	  
+ - Invoice Service URL: https://7b3a7da2trial.ui-trial.dox.aiservices.cfapps.us10.hana.ondemand.com/ui/index.html?clientId=default#/invoiceviewer
+	UserName = slim.trabelsi@gmail.com
+	Password = "Mysuperpassword1234/."
