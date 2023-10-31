@@ -1,10 +1,1 @@
-password = password
-password=gjghjfhddkflbbgjnow
-password = ""
-
-password=fdklqljfdleflkjfzlksefjqslkjf
-
-password = "flskjg534fsjhf355453fsmojf"
-
-//this file is containing secrets that should never be shared on Github
-var password ="tech_ed@02_11"
+password=tech_ed@02_11
